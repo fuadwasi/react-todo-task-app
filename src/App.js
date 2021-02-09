@@ -1,10 +1,14 @@
 import React from 'react'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import logo from './logo.svg';
 import './App.css';
 import Tasks from './components/Tasks';
 import Header from './components/Header'
 import AddTask from './components/AddTask'
+import Footer from "./components/Footer";
+import About from "./components/About";
+
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([]);
@@ -79,20 +83,37 @@ const upTask = {...taskToToggle,reminder:!taskToToggle.reminder}
   };
 
   return (
-    <div className="container">
-      <Header
-        showAdd={showAddTask}
-        onAdd={() => {
-          setShowAddTask(!showAddTask);
-        }}
-      />
-      {showAddTask ? <AddTask onAdd={addTask} /> : ""}
-      {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
-      ) : (
-        "No Task to Show"
-      )}
-    </div>
+    <Router>
+      <div className="container">
+        <Header
+          showAdd={showAddTask}
+          onAdd={() => {
+            setShowAddTask(!showAddTask);
+          }}
+        />
+
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <>
+              {showAddTask ? <AddTask onAdd={addTask} /> : ""}
+              {tasks.length > 0 ? (
+                <Tasks
+                  tasks={tasks}
+                  onDelete={deleteTask}
+                  onToggle={toggleReminder}
+                />
+              ) : (
+                "No Task to Show"
+              )}
+            </>
+          )}
+        ></Route>
+        <Route path="/about" component={About}></Route>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
