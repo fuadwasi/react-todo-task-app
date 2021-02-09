@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import Tasks from './components/Tasks';
 import Header from './components/Header'
+import AddTask from './components/AddTask'
 function App() {
   const [tasks, setTasks]= useState([
     { 
@@ -22,7 +23,7 @@ function App() {
         id: 3,
         text:"Gumaite Jaw",
         day: "Feb 7th at 7:30pm",
-        reminder: true,
+        reminder: false,
     },
 ]
 )
@@ -39,6 +40,7 @@ const toggleReminder = (id)=>{
   return (
     <div className="container">
       <Header />
+      <AddTask/>
       {tasks.length >0? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}/>: 'No Task to Show'}
     </div>
   );
